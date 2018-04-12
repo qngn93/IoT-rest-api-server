@@ -44,11 +44,11 @@ def close():
 
 
 @app.route("/getOpenStatus")
-def OpenStatus():
+def openStatus():
 
 
 @app.route("/getLockedStatus")
-def LockStatus():
+def lockStatus():
 
 
 
