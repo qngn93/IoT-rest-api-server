@@ -8,16 +8,19 @@ app = Flask(__name__)
 
 GPIO.setmode(GPIO.BCM)
 
+#storing pins and states in dict
 pins = {
 	23 : {'open' : 'GPIO 23', 'state' : GPIO.LOW},
 	24 : {'lock' : 'GPIO 24', 'state' : GPIO.LOW}
 }
 
+#setting each pin as an output
+#setting default at low
 for pin in pins:
 	GPIO.setup(pin, GPIO.OUT)
 	GPIO.output(pin, GPIO.LOW)
 
-
+#default time set
 @app.route("/")
 def main():
 	now = datetime.datatime.now()
