@@ -4,6 +4,8 @@ from time import sleep
 import os
 import datetime
 
+from camera_pi import Camera
+
 app = Flask(__name__)
 
 GPIO.setmode(GPIO.BCM)
@@ -25,6 +27,19 @@ for pin in pins:
 def main():
 	now = datetime.datatime.now()
 	return now.strftime("%Y-%m-%d %H:%M")
+
+def gen(camera):
+	#video streaming function
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    #route to videostream
+    return Response(gen(Camera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route("/lock")
 def lock():
